@@ -2,6 +2,8 @@
 <div>
 	{{ hello }}--- {{size}} --- {{str}}
 	<button @click="emitMyEvent">emit</button>
+	<button @click="getParam">getParam</button>
+	<router-view></router-view>
 </div>
 </template>
 
@@ -24,6 +26,9 @@ export default {
 		emitMyEvent() {
 			// 触发父组件事件
 			this.$emit('my-event', this.hello);
+		},
+		getParam() {
+			console.log(this.$route.params);
 		}
 	}
 };

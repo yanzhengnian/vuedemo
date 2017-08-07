@@ -80,6 +80,39 @@ devMiddleware.waitUntilValid(() => {
   _resolve()
 })
 
+// json-server模拟接口,需要设置代理index.js中
+// var jsonServer = require('json-server');
+// var apiServer = jsonServer.create();
+// var apiRouter = jsonServer.router('db.json');
+// var middlewares = jsonServer.defaults();
+
+// apiServer.use(middlewares);
+// apiServer.use('/api', apiRouter);
+  
+// apiServer.listen(port + 1, function() {
+//   console.log('JSON Server is running');
+// });
+
+var appData = require('../db.json');
+var newsList = appData.getNewsList;
+var login = appData.login;
+
+var apiRouter = express.Router();
+apiRouter.get('/getNewsList', function(req, res) {
+  res.json({
+    errno: 0,
+    data: newsList
+  });
+});
+apiRouter.get('/login', function(req, res) {
+  res.json({
+    errno: 0,
+    data: login
+  });
+});
+app.use('/api', apiRouter);
+
+
 var server = app.listen(port)
 
 module.exports = {
