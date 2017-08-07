@@ -7,9 +7,6 @@
 		<div class="selection-list" v-if="isDrop">
 			<ul>
 				<li v-for="(item, index) in selections" @click="chooseSelection(index)">{{ item.label }}</li>
-				<!-- <li>1</li>
-				<li>2</li>
-				<li>3</li> -->
 			</ul>
 		</div>
 	</div>
@@ -92,7 +89,6 @@ export default{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
 }
 .selection-list li:hover {
   background: #e3e3e3;

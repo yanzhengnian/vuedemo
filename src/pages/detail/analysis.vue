@@ -11,6 +11,7 @@
               </div>
               <div class="sales-board-line-right">
                 <!-- <v-counter @on-change="onParamChange('buyNum', $event)"></v-counter> -->
+                <v-counter @on-change="onParamChange('buyNum', $event)"></v-counter>
               </div>
           </div>
           <div class="sales-board-line">
@@ -19,7 +20,7 @@
               </div>
               <div class="sales-board-line-right">
                   <!-- <v-selection :selections="buyTypes" @on-change="onParamChange('buyType', $event)"></v-selection> -->
-                  <VSelection :selections="productTypes" @on-change=""></VSelection>
+                  <VSelection :selections="productTypes" @on-change="onParamChange('buyType', $event)"></VSelection>
               </div>
           </div>
           <div class="sales-board-line">
@@ -30,6 +31,7 @@
                  <!--  <v-chooser
                   :selections="periodList"
                   @on-change="onParamChange('period', $event)"></v-chooser>-->
+                  <v-chooser :selections="periodList" @on-change="onParamChange('period', $event)"></v-chooser>
               </div> 
           </div>
           <div class="sales-board-line">
@@ -40,6 +42,7 @@
                  <!--  <v-mul-chooser
                   :selections="versionList"
                   @on-change="onParamChange('versions', $event)"></v-mul-chooser> -->
+                  <v-mul-chooser :selections="versionList" @on-change="onParamChange('versions', $event)"></v-mul-chooser>
               </div>
           </div>
           <div class="sales-board-line">
@@ -116,14 +119,52 @@
 <script>
 // import Dialog from '@/components/dialog';
 import VSelection from '../../components/selection';
+import VChooser from '../../components/chooser';
+import VMulChooser from '../../components/multiplyChooser';
+import VCounter from '../../components/counter';
 export default {
   components: {
     // my-dialog: Dialog
-    VSelection
+    VSelection,
+    VChooser,
+    VMulChooser,
+    VCounter
   },
   data() {
     return {
       price: 0,
+      buyNum: 0,
+      buyType: {},
+      versions: [],
+      period: {},
+      versionList: [
+        {
+          label: '客户版',
+          value: 0
+        },
+        {
+          label: '代理商版',
+          value: 1
+        },
+        {
+          label: '专家版',
+          value: 2
+        }
+      ],
+      periodList: [
+        {
+          label: '半年',
+          value: 0
+        },
+        {
+          label: '一年',
+          value: 1
+        },
+        {
+          label: '三年',
+          value: 2
+        }
+      ],
       productTypes: [
         {
           label: '入门级',
@@ -143,6 +184,19 @@ export default {
   methods: {
     showPayDialog() {
       console.log(2);
+    },
+    onParamChange(attr, val) {
+      this[attr] = val;
+      console.log(attr, this[attr]);
+    },
+    getPrice() {
+      // let reqParams = {
+      //   buyNumber: this.buyNum,
+      //   buyType: this.buyType.value,
+      //   period: this.period.value,
+      //   version: buyVersionsArray.join(',');
+      // };
+      // this.$http.post('api/getPrice',{});
     }
   }
 };

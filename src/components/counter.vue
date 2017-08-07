@@ -1,100 +1,96 @@
 <template>
-	<div class="selection-component">
-		<div class="selection-show" @click="toggleDrop">
-			<span>{{selections[nowIndex].label}}</span>
-			<div class="arrow"></div>
-		</div>
-		<div class="selection-list" v-if="isDrop">
-			<ul>
-				<li v-for="(item, index) in selections" @click="chooseSelection(index)">{{ item.label }}</li>
-				<!-- <li>1</li>
-				<li>2</li>
-				<li>3</li> -->
-			</ul>
-		</div>
+	<div class="counter-component">
+    <div class="counter-btn" @click="minus"> - </div>
+    <div class="counter-show">
+      <input type="text" v-model="number" @keyup="fixNumber">
+    </div>
+    <div class="counter-btn" @click="add"> + </div>
 	</div>
 </template>
 
 <script>
 export default{
   props: {
-    selections: {
-      type: Array,
-      default: [{
-        label: 'test',
-        value: 0
-      }]
+    max: {
+      type: Number,
+      default: 20
+    },
+    min: {
+      type: Number,
+      default: 1
     }
   },
   data () {
     return {
-      isDrop: false,
-      nowIndex: 0
+      number: this.min
     };
   },
+  watch: {
+    number() {
+      this.$emit('on-change', this.number);
+    }
+  },
   methods: {
-    toggleDrop() {
-      this.isDrop = !this.isDrop;
+    fixNumber() {
+      let fix;
+      if (typeof this.number === 'string') {
+        fix = Number(this.number.replace(/\D/g, ''));
+      } else {
+        fix = this.number;
+      }
+      if (fix > this.max || fix < this.min) {
+        fix = this.min;
+      }
+      this.number = fix;
     },
-    chooseSelection (index) {
-      this.nowIndex = index;
-      this.isDrop = false;
-      this.$emit('on-change', this.selections[this.nowIndex]);
+    minus() {
+      if (this.number <= this.min) {
+        return;
+      }
+      this.number --;
+    },
+    add() {
+      if (this.number >= this.max) {
+        return;
+      }
+      this.number ++;
     }
   }
 };
 </script>
-<style>
-.selection-component {
+<style rel="stylesheet/less" lang="less">
+.counter-component {
   position: relative;
   display: inline-block;
-}
-.selection-show {
-  border: 1px solid #e3e3e3;
-  padding: 0 20px 0 10px;
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-  height: 25px;
-  line-height: 25px;
-  border-radius: 3px;
-  background: #fff;
-}
-.selection-show .arrow {
-  display: inline-block;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 5px solid #e3e3e3;
-  width: 0;
-  height: 0;
-  margin-top: -1px;
-  margin-left: 6px;
-  margin-right: -14px;
-  vertical-align: middle;
-}
-.selection-list {
-  display: inline-block;
-  position: absolute;
-  left: 0;
-  top: 25px;
-  width: 100%;
-  background: #fff;
-  border-top: 1px solid #e3e3e3;
-  border-bottom: 1px solid #e3e3e3;
-  z-index: 5;
-}
-.selection-list li {
-  padding: 5px 15px 5px 10px;
-  border-left: 1px solid #e3e3e3;
-  border-right: 1px solid #e3e3e3;
-  cursor: pointer;
-  background: #fff;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-
-}
-.selection-list li:hover {
-  background: #e3e3e3;
+  vertical-align: middle;
+  .counter-show {
+    float: left;
+  }
+  .counter-show input {
+    border: none;
+    border-top: 1px solid #e3e3e3;
+    border-bottom: 1px solid #e3e3e3;
+    height: 23px;
+    line-height: 23px;
+    width: 30px;
+    outline: none;
+    text-indent: 4px;
+    text-align: center;
+  }
+  .counter-btn {
+    border: 1px solid #e3e3e3;
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    width: 25px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .counter-btn:hover {
+    border-color: #4fc08d;
+    background: #4fc08d;
+    color: #fff;
+  }
 }
 </style>
