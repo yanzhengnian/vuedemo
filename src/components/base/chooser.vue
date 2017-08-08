@@ -36,7 +36,7 @@ export default{
   }
 };
 </script>
-<style rel="stylesheet/less" lang="less">
+<style rel="stylesheet/less" lang="less" scoped>
 .chooser-component {
   position: relative;
   display: inline-block;

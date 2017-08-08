@@ -83,7 +83,7 @@
           <li>用户所使用的操作系统名称和版本</li>
           <li>用户所在地理区域分布状况等</li>
         </ul>
-      </div><!--
+      </div>
       <my-dialog :is-show="isShowPayDialog" @on-close="hidePayDialog">
         <table class="buy-dialog-table">
           <tr>
@@ -112,26 +112,36 @@
       <my-dialog :is-show="isShowErrDialog" @on-close="hideErrDialog">
         支付失败！
       </my-dialog>
-      <check-order :is-show-check-dialog="isShowCheckOrder" :order-id="orderId" @on-close-check-dialog="hideCheckOrder"></check-order>-->
+      <check-order :is-show-check-dialog="isShowCheckOrder" :orderId="orderId" @on-close-check-dialog="hideCheckOrder"></check-order>
   </div>
 </template>
 
 <script>
-// import Dialog from '@/components/dialog';
-import VSelection from '../../components/selection';
-import VChooser from '../../components/chooser';
-import VMulChooser from '../../components/multiplyChooser';
-import VCounter from '../../components/counter';
+import _ from 'lodash';
+import Dialog from '@/components/base/dialog';
+import VSelection from '../../components/base/selection';
+import VChooser from '../../components/base/chooser';
+import VMulChooser from '../../components/base/multiplyChooser';
+import VCounter from '../../components/base/counter';
+import bankChooser from '../../components/bankChooser';
+import checkOrder from '../../components/checkOrder';
 export default {
   components: {
-    // my-dialog: Dialog
+    'my-dialog': Dialog,
     VSelection,
     VChooser,
     VMulChooser,
-    VCounter
+    VCounter,
+    bankChooser,
+    checkOrder
   },
   data() {
     return {
+      // bankId: '',
+      orderId: 0,
+      isShowCheckOrder: false,
+      isShowErrDialog: false,
+      isShowPayDialog: false,
       price: 0,
       buyNum: 0,
       buyType: {},
@@ -182,22 +192,76 @@ export default {
     };
   },
   methods: {
+    hideCheckOrder() {
+      this.isShowCheckOrder = false;
+    },
+    hideErrDialog() {
+      this.isShowErrDialog = false;
+    },
+    hidePayDialog() {
+      this.isShowPayDialog = false;
+    },
     showPayDialog() {
-      console.log(2);
+      this.isShowPayDialog = true;
+    },
+    confirmBuy() {
+      this.isShowPayDialog = false;
+      let buyVersionsArray = _.map(this.versions, (item) => {
+        return item.value;
+      });
+      /* eslint-disable no-unused-vars */
+      let reqParams = {
+        buyNumber: this.buyNum,
+        buyType: this.buyType.value,
+        period: this.period.value,
+        version: buyVersionsArray.join(','),
+        bankId: this.bankId
+      };
+      this.$http.get('/api/createOrder')
+      .then((res) => {
+        let data = res.data.data;
+        this.orderId = data.orderId;
+        this.isShowCheckOrder = true;
+      }, (err) => {
+        console.log(err);
+      });
     },
     onParamChange(attr, val) {
       this[attr] = val;
-      console.log(attr, this[attr]);
+      // console.log(attr, this[attr]);
+      this.getPrice();
     },
     getPrice() {
-      // let reqParams = {
-      //   buyNumber: this.buyNum,
-      //   buyType: this.buyType.value,
-      //   period: this.period.value,
-      //   version: buyVersionsArray.join(',');
-      // };
-      // this.$http.post('api/getPrice',{});
+      let buyVersionsArray = _.map(this.versions, (item) => {
+        return item.value;
+      });
+      /* eslint-disable no-unused-vars */
+      let reqParams = {
+        buyNumber: this.buyNum,
+        buyType: this.buyType.value,
+        period: this.period.value,
+        version: buyVersionsArray.join(',')
+      };
+      this.$http.get('/api/getPrice')
+      .then((res) => {
+        let data = res.data.data;
+        console.log(data.amount);
+        this.price = data.amount;
+      }, (err) => {
+        console.log(err);
+      });
+    },
+    onChangeBanks(bankObj) {
+      this.bankId = bankObj.id;
+      console.log(this.bankId);
     }
+  },
+  mounted() {
+    this.buyNum = 0;
+    this.buyType = this.productTypes[0];
+    this.versions = [this.versionList[0]];
+    this.period = this.periodList[0];
+    this.getPrice();
   }
 };
 </script>
@@ -209,6 +273,11 @@ export default {
 }
 .buy-dialog-btn {
   margin-top: 20px;
+  width: 65px;
+  background: #4fc08d;
+  padding: 6px 8px;
+  cursor: pointer;
+  color: #fff;
 }
 .buy-dialog-table {
   width: 100%;

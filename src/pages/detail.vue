@@ -4,7 +4,7 @@
       <div class="product-board">
         <img :src="productIcon">
         <ul>
-          <router-link v-for="item in products" :to="{ path: item.path }" tag="li" active-class="active">
+          <router-link v-for="item in products" :key="item.name" :to="{ path: item.path }" tag="li" active-class="active">
             {{ item.name }}
           </router-link>
         </ul>
@@ -131,6 +131,13 @@ export default {
 .sales-board-line-right {
     display: inline-block;
     width: 75%;
+    .button{
+      width: 58px;
+      background: #4fc08d;
+      padding: 6px 8px;
+      color: #fff;
+      cursor: pointer;
+    }
 }
 .sales-board-des {
   border-top: 20px solid #f0f2f5;

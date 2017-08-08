@@ -17,5 +17,11 @@
   "login": {
     "username": "admin",
     "userId": 1233
+  },
+  "getPrice": {
+    "amount": 500
+  },
+  "createOrder": {
+    "orderId": "345"
   }
 }

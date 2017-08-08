@@ -96,6 +96,8 @@ devMiddleware.waitUntilValid(() => {
 var appData = require('../db.json');
 var newsList = appData.getNewsList;
 var login = appData.login;
+var price = appData.getPrice;
+var createOrder = appData.createOrder;
 
 var apiRouter = express.Router();
 apiRouter.get('/getNewsList', function(req, res) {
@@ -108,6 +110,18 @@ apiRouter.get('/login', function(req, res) {
   res.json({
     errno: 0,
     data: login
+  });
+});
+apiRouter.get('/getPrice', function(req, res) {
+  res.json({
+    errno: 0,
+    data: price
+  });
+});
+apiRouter.get('/createOrder', function(req, res) {
+  res.json({
+    errno: 0,
+    data: createOrder
   });
 });
 app.use('/api', apiRouter);

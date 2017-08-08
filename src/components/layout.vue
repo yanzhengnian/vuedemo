@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import Dialog from '@/components/dialog';
+import Dialog from '@/components/base/dialog';
 import LogForm from '@/components/logForm';
 import RegForm from '@/components/regForm';
 export default {
@@ -86,6 +86,9 @@ export default {
 
 <style rel="stylesheet/less" lang="less">
 @import '../common/less/index';
+.layout{
+	background: #EEF0F2;
+}
 .app-head{
 	background: #363636;
 	color: #b2b2b2;
