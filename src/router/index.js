@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import IndexPage from '@/pages/index';
 import DetailPage from '@/pages/detail';
+import OrderListPage from '@/pages/orderList';
 import DetailAnalysis from '@/pages/detail/analysis';
 import DetailCount from '@/pages/detail/count';
 import DetailForecase from '@/pages/detail/forecase';
@@ -15,6 +16,10 @@ export default new Router({
     {
       path: '/',
       component: IndexPage
+    },
+    {
+      path: '/orderList',
+      component: OrderListPage
     },
     {
       path: '/detail',

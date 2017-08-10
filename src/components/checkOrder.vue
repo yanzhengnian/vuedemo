@@ -56,7 +56,7 @@ export default {
       });
     },
     toOrderList() {
-      this.$router.push({path: '/detail/analysis'});
+      this.$router.push({path: '/orderList'});
     }
   }
 };
@@ -66,7 +66,8 @@ export default {
 <style rel="stylesheet/less" lang="less">
 .checkOrder{
   .button{
-        width: 58px;
+    display: inline-block;
+    width: 70px;
     background: #4fc08d;
     padding: 6px 8px;
     color: #fff;

@@ -222,8 +222,11 @@ export default {
         let data = res.data.data;
         this.orderId = data.orderId;
         this.isShowCheckOrder = true;
+        this.isShowPayDialog = false;
       }, (err) => {
         console.log(err);
+        this.isShowErrDialog = false;
+        // this.isShowBuyDialog = false;
       });
     },
     onParamChange(attr, val) {

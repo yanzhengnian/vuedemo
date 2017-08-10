@@ -98,6 +98,7 @@ var newsList = appData.getNewsList;
 var login = appData.login;
 var price = appData.getPrice;
 var createOrder = appData.createOrder;
+var orderList = appData.getOrderList;
 
 var apiRouter = express.Router();
 apiRouter.get('/getNewsList', function(req, res) {
@@ -122,6 +123,18 @@ apiRouter.get('/createOrder', function(req, res) {
   res.json({
     errno: 0,
     data: createOrder
+  });
+});
+apiRouter.get('/checkOrder', function(req, res) {
+  res.json({
+    errno: 0,
+    data: 1
+  });
+});
+apiRouter.get('/getOrderList', function(req, res) {
+  res.json({
+    errno: 0,
+    data: orderList
   });
 });
 app.use('/api', apiRouter);
