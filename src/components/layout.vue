@@ -1,5 +1,5 @@
 <template>
-	<div class="layout">
+	<div class="layout" @click="resetComponent">
 		<div class="app-head">
 			<div class="app-head-inner">
 				<router-link :to="{path: '/'}">
@@ -9,7 +9,7 @@
 					<ul class="nav-list">
 						<li>{{username}}</li>
 						<li v-if="username!==''" class="nav-pile">|</li>
-						<li v-if="username!==''" @click=" ">退出</li>
+						<li v-if="username!==''" @click="logoutClick">退出</li>
 						<li v-if="username===''" @click="logClick">登录</li>
 						<li v-if="username===''" class="nav-pile">|</li>
 						<li v-if="username===''" @click="regClick">注册</li>
@@ -42,6 +42,9 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
+import {saveToLocal, loadFromLocal} from '@/common/js/util';
+import {eventBus} from '../eventBus';
 import Dialog from '@/components/base/dialog';
 import LogForm from '@/components/logForm';
 import RegForm from '@/components/regForm';
@@ -79,7 +82,20 @@ export default {
 		},
 		quit() {
 
+		},
+		resetComponent() {
+			eventBus.$emit('reset-component');
+		},
+		logoutClick() {
+			var storage = window.localStorage;
+			storage.removeItem('__seller__');
+			this.username = '';
 		}
+	},
+	mounted() {
+		let user = loadFromLocal(123, 'username', false);
+		console.log(user.username);
+		this.username = user.username || '';
 	}
 };
 </script>

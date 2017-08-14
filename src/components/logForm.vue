@@ -28,6 +28,8 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
+import {saveToLocal, loadFromLocal} from '@/common/js/util';
 export default {
   data() {
     return {
@@ -81,10 +83,11 @@ export default {
       } else {
         this.errorText = '';
          console.log('login');
-        this.$http.get('api/login')
+        this.$http.get('/api/login')
         .then((res) => {
           // 触发父组件事件
           this.$emit('has-log', res.data);
+          saveToLocal(123, 'username', res.data.data);
         }, (error) => {
           console.log(error);
         });
@@ -121,6 +124,7 @@ export default {
     color: #fff;
     background: #4fc08d;
     padding: 6px 10px;
+    cursor: pointer;
   }
 }
 .g-form-error {

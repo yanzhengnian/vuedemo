@@ -21,6 +21,7 @@
               <div class="sales-board-line-right">
                   <!-- <v-selection :selections="buyTypes" @on-change="onParamChange('buyType', $event)"></v-selection> -->
                   <VSelection :selections="productTypes" @on-change="onParamChange('buyType', $event)"></VSelection>
+                  <!-- <VSelection :selections="productTypes" @on-change="onParamChange('buyType', $event)"></VSelection> -->
               </div>
           </div>
           <div class="sales-board-line">
@@ -248,7 +249,7 @@ export default {
       this.$http.get('/api/getPrice')
       .then((res) => {
         let data = res.data.data;
-        console.log(data.amount);
+        // console.log(data.amount);
         this.price = data.amount;
       }, (err) => {
         console.log(err);

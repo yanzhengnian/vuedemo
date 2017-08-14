@@ -100,9 +100,15 @@ export default {
           key: 'amount'
         }
       ],
-      currentOrder: 'asc',
-      tableData: []
+      // tableData: [],
+      currentOrder: 'asc'
     };
+  },
+  computed: {
+    tableData() {
+      // console.log('getters:', this.$store.getters.getOrderList);
+      return this.$store.getters.getOrderList;
+    }
   },
   watch: {
 		query() {
@@ -112,11 +118,22 @@ export default {
   },
   methods: {
     productChange(obj) {
-      console.log(9);
+      this.$store.commit('updateParams', {
+        key: 'productId',
+        val: obj.value
+      });
+      this.$store.dispatch('fetchOrderList');
+      // this.productId = obj.value;
+      // this.getTableData();
 		},
 		getStartDate(date) {
-			this.startDate = date;
-			this.getTableData();
+      this.$store.commit('updateParams', {
+        key: 'startDate',
+        val: date
+      });
+      this.$store.dispatch('fetchOrderList');
+			// this.startDate = date;
+			// this.getTableData();
 		},
 		getEndDate(date) {
 			this.endDate = date;
@@ -129,10 +146,10 @@ export default {
 			// 	startDate: this.startDate,
 			// 	endDate: this.endDate
 			// };
-			this.$http.get('/api/getOrderList')
-			.then((res) => {
-				this.tableData = res.data.data.list;
-			});
+			// this.$http.get('/api/getOrderList')
+			// .then((res) => {
+			// 	this.tableData = res.data.data.list;
+			// });
 		},
 		changeOrderType(headItem) {
 			this.tableHeads.map((item) => {
@@ -149,7 +166,9 @@ export default {
 		}
   },
   mounted() {
-		this.getTableData();
+		// this.getTableData();
+    this.$store.dispatch('fetchOrderList');
+		// console.log(2, this.$store);
   }
 };
 </script>

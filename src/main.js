@@ -4,12 +4,14 @@ import Vue from 'vue';
 import VueResource from 'vue-resource';
 import Layout from './components/layout';
 import router from './router/index';
+import store from './store';
 Vue.config.productionTip = false;
 Vue.use(VueResource);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<Layout/>',
   components: { Layout }
 });
