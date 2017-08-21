@@ -7,6 +7,7 @@ import DetailAnalysis from '@/pages/detail/analysis';
 import DetailCount from '@/pages/detail/count';
 import DetailForecase from '@/pages/detail/forecase';
 import DetailPublish from '@/pages/detail/publish';
+import resourceTest from '@/pages/resourceTest';
 Vue.use(Router);
 
 export default new Router({
@@ -16,6 +17,10 @@ export default new Router({
     {
       path: '/',
       component: IndexPage
+    },
+    {
+      path: '/test',
+      component: resourceTest
     },
     {
       path: '/orderList',

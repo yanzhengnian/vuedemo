@@ -9,7 +9,7 @@
 					<ul class="nav-list">
 						<li>{{username}}</li>
 						<li v-if="username!==''" class="nav-pile">|</li>
-						<li v-if="username!==''" @click="logoutClick">退出</li>
+						<li v-if="username!==''" @click="quit">退出</li>
 						<li v-if="username===''" @click="logClick">登录</li>
 						<li v-if="username===''" class="nav-pile">|</li>
 						<li v-if="username===''" @click="regClick">注册</li>
@@ -80,13 +80,10 @@ export default {
 			console.log(data);
 			this.username = data.data.username;
 		},
-		quit() {
-
-		},
 		resetComponent() {
 			eventBus.$emit('reset-component');
 		},
-		logoutClick() {
+		quit() {
 			var storage = window.localStorage;
 			storage.removeItem('__seller__');
 			this.username = '';
